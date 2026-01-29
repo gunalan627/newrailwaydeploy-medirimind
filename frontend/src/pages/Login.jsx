@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { useToast } from '../components/Toast';
 import Button from '../components/Button';
 import { FiMail, FiLock, FiArrowRight } from 'react-icons/fi';
+import api from "../api/api";
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -27,10 +28,23 @@ const Login = () => {
         setLoading(true);
 
         try {
-            await login(formData);
+            const response = await api.post("/api/auth/login", {
+                email: formData.email,
+                password: formData.password
+            });
+
+            // Save token
+            localStorage.setItem("token", response.data.token);
+
             showToast('Login successful!', 'success');
-            setTimeout(() => navigate('/dashboard'), 500);
+
+            // Force reload to update AuthContext state
+            setTimeout(() => {
+                window.location.href = '/dashboard';
+            }, 500);
+
         } catch (error) {
+            console.error("Login error:", error.response?.data || error.message);
             showToast(
                 error.response?.data?.message || 'Login failed. Please check your credentials.',
                 'error'

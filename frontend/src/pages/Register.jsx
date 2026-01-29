@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { useToast } from '../components/Toast';
 import Button from '../components/Button';
 import { FiMail, FiLock, FiUser, FiPhone, FiArrowRight } from 'react-icons/fi';
+import api from "../api/api";
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -30,10 +31,14 @@ const Register = () => {
         setLoading(true);
 
         try {
-            await register(formData);
-            showToast('Registration successful!', 'success');
-            setTimeout(() => navigate('/dashboard'), 500);
+            const response = await api.post("/api/auth/register", formData);
+            console.log("Register success:", response.data);
+
+            showToast('Registration successful! Please login.', 'success');
+            setTimeout(() => navigate('/login'), 1500);
+
         } catch (error) {
+            console.error("Register error:", error.response?.data || error.message);
             showToast(
                 error.response?.data?.message || 'Registration failed. Please try again.',
                 'error'
