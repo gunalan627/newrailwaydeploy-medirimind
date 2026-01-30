@@ -1,21 +1,25 @@
-# Java / Spring Boot
-/target
-*.log
-*.class
+# Java / Spring BootHELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
 
-# Node / React
-/frontend/node_modules
-/frontend/build
-/frontend/dist
+# Frontend (DO NOT push to backend repo)
+frontend/
+node_modules/
 
-# Env files
+# Environment files
 .env
-*.env
+.env.local
+.env.*.local
+frontend/.env
+frontend/.env.local
+frontend/.env.*.local
 
 # IDE
-/.idea
-/.vscode
-.settings
+.vscode/
+.settings/
 .classpath
-.project
-.factorypath
+
+
+
